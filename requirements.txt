@@ -1,0 +1,15 @@
+Django==1.11.2
+djangorestframework==3.7.3
+MySQL-python==1.2.5
+Pillow==4.3.0
+django-crispy-forms
+future
+django-reversion==2.0.12
+django-formtools==2.1.0
+django_import_export==0.6.1
+xlwt==1.3.0
+XlsxWriter==1.0.2
+
+
+
+
