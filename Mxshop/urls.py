@@ -1,3 +1,4 @@
+# coding:utf8
 """Mxshop URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -16,6 +17,10 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 
+from django.contrib.auth import settings
+
+from django.views.static import serve
+
 import xadmin
 xadmin.autodiscover()
 
@@ -28,5 +33,8 @@ urlpatterns = [
     # url(r'^admin/', admin.site.urls),
     url(r'^', include(xadmin.site.urls)),
     url(r'^ueditor/',include('DjangoUeditor.urls' )),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+
+    # 配置上传文件的访问处理函数
+    url(r'^media/(?P<path>.*)$', serve, {"document_root": settings.MEDIA_ROOT}),
 ]

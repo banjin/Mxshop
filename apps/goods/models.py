@@ -40,7 +40,7 @@ class GoodsCategoryBrand(models.Model):
     """
     name = models.CharField(u'品牌名', help_text=u'', max_length=30,default='')
     desc = models.TextField(u'品牌描述', help_text=u'', max_length=200,default='')
-    image = models.ImageField(upload_to='brand/images/', max_length=200)
+    image = models.ImageField(upload_to='brands/', max_length=200)
     add_time = models.DateTimeField(u'添加时间', default=datetime.now)
 
     class Meta:
@@ -68,7 +68,7 @@ class Goods(models.Model):
     goods_brief = models.TextField(u'商品剪短描述', max_length=500)
     goods_desc = UEditorField(u'内容', imagePath='goods/images/', height=100, width=1000, default='', filePath='goods/files/')
     ship_free = models.BooleanField(u'是否承担运费', default=True)
-    goods_front_image = models.ImageField(u'封面图', upload_to='',null=True, blank=True)
+    goods_front_image = models.ImageField(u'封面图', upload_to='goods/images/',null=True, blank=True)
     is_new = models.BooleanField(u'是否新品',default=False)
     is_hot = models.BooleanField(u'是否热销', default=False)
     add_time = models.DateTimeField(u'添加时间', default=datetime.now)
