@@ -1,3 +1,4 @@
+# coding:utf8
 """
 Django settings for Mxshop project.
 
@@ -47,6 +48,10 @@ INSTALLED_APPS = [
     'crispy_forms',
     'reversion',
     'users',
+    'DjangoUeditor',
+    'goods',
+    'trade',
+    'user_operation',
 ]
 
 MIDDLEWARE = [
@@ -142,4 +147,25 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ]
 }
+
+AUTH_USER_MODEL = 'users.UserProfile'
+
+
+UEDITOR_SETTINGS = {
+                "toolbars": {           #定义多个工具栏显示的按钮，允行定义多个
+                    "name1": [['source', '|', 'bold', 'italic', 'underline']],
+                    "name2": []
+                },
+                "images_upload": {
+                    "allow_type": "jpg,png",    #定义允许的上传的图片类型
+                    "max_size": "2222kb"        #定义允许上传的图片大小，0代表不限制
+                },
+                "files_upload": {
+                     "allow_type": "zip,rar",   #定义允许的上传的文件类型
+                     "max_size": "2222kb"       #定义允许上传的文件大小，0代表不限制
+                 },
+                "image_manager": {
+                     "location": ""         #图片管理器的位置,如果没有指定，默认跟图片路径上传一样
+                },
+            }
 
