@@ -39,7 +39,7 @@ class GoodsCategoryBrand(models.Model):
 
     """
     name = models.CharField(u'品牌名', help_text=u'', max_length=30,default='')
-    desc = models.TextField(u'品牌描述', help_text=u'', max_length=200,default=''),
+    desc = models.TextField(u'品牌描述', help_text=u'', max_length=200,default='')
     image = models.ImageField(upload_to='brand/images/', max_length=200)
     add_time = models.DateTimeField(u'添加时间', default=datetime.now)
 
