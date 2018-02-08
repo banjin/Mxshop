@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from  datetime import datetime
+from datetime import datetime
 from django.db import models
 from goods.models import Goods
 from django.contrib.auth import get_user_model
@@ -34,13 +34,12 @@ class UserLeavingMessage(models.Model):
         (5, '求购')
     )
     user = models.ForeignKey(User, verbose_name=u'用户')
-    message_type = models.IntegerField(u'留言类型',choices=MESSAGE_CHOICES, default=1,
+    message_type = models.IntegerField(u'留言类型', choices=MESSAGE_CHOICES, default=1,
                                        help_text=u'留言类型:1(留言),2(投诉),3(讯问),4(售后),5(求购)')
     message = models.TextField(u'留言内容', default='', help_text=u'留言内容')
     file = models.FileField(u'上传的文件', help_text=u'上传的文件')
     subject = models.CharField(u'主题', max_length=100, default='')
     add_time = models.DateTimeField(u'添加时间', default=datetime.now)
-
 
     class Meta:
         verbose_name = u'用户留言'

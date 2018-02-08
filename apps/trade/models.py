@@ -18,7 +18,7 @@ class ShoppingCart(models.Model):
     """
     user = models.ForeignKey(UserModel, verbose_name=u'用户')
 
-    goods = models.ForeignKey(Goods,verbose_name=u'商品')
+    goods = models.ForeignKey(Goods, verbose_name=u'商品')
     good_num = models.IntegerField(u'购买数量', default=0)
     add_time = models.DateTimeField(u'添加时间', default=datetime.now)
 
@@ -41,7 +41,7 @@ class OrderInfo(models.Model):
     )
 
     user = models.ForeignKey(UserModel, verbose_name=u'用户')
-    order_sn = models.CharField(u'订单编号',unique=True, max_length=100)
+    order_sn = models.CharField(u'订单编号', unique=True, max_length=100)
     trade_no = models.CharField(max_length=100, unique=True, null=True, blank=True)
     pay_status = models.CharField(u'订单状态', max_length=10, choices=ORDER_STATUS, default='')
     order_mount = models.FloatField(u'订单金额', default=0.0)
@@ -66,7 +66,7 @@ class OrderGoods(models.Model):
     """
     order = models.ForeignKey(OrderInfo, verbose_name=u'订单信息')
     goods = models.ForeignKey(Goods, verbose_name='商品')
-    goods_num = models.IntegerField(u'商品数量',default=0)
+    goods_num = models.IntegerField(u'商品数量', default=0)
     add_time = models.DateTimeField(u'添加时间', default=datetime.now)
 
     class Meta:

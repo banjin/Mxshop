@@ -36,7 +36,7 @@ urlpatterns = [
     # 后台管理
     url(r'^xadmin/', include(xadmin.site.urls)),
     # 富文本编辑
-    url(r'^ueditor/',include('DjangoUeditor.urls' )),
+    url(r'^ueditor/', include('DjangoUeditor.urls')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
     # 配置上传文件的访问处理函数
