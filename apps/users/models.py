@@ -18,7 +18,7 @@ class UserProfile(AbstractUser):
     birthday = models.DateField(u'出生日期', null=True, blank=True)
     mobile = models.CharField(u'手机号', max_length=11)
     gender = models.CharField(u'性别', choices=GENDER, default='male', max_length=6)
-    user_email = models.EmailField(u'邮箱', max_length=100, null=True, blank=True)
+    user_email = models.EmailField(u'邮箱', max_length=100, null=True, blank=True, default='')
 
     class Meta:
         verbose_name = u"用户"
