@@ -21,6 +21,8 @@ from django.contrib.auth import settings
 
 from django.views.static import serve
 
+from rest_framework.documentation import include_docs_urls
+
 import xadmin
 xadmin.autodiscover()
 
@@ -31,10 +33,16 @@ xversion.register_models()
 
 urlpatterns = [
     # url(r'^admin/', admin.site.urls),
-    url(r'^', include(xadmin.site.urls)),
+    # 后台管理
+    url(r'^xadmin/', include(xadmin.site.urls)),
+    # 富文本编辑
     url(r'^ueditor/',include('DjangoUeditor.urls' )),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
     # 配置上传文件的访问处理函数
     url(r'^media/(?P<path>.*)$', serve, {"document_root": settings.MEDIA_ROOT}),
+    url(r'^goods/list/', include('goods.urls', namespace='goods')),
+
+    # 使用drf自带文档系统
+    url(r'^docs/', include_docs_urls(title='暮雪')),
 ]
