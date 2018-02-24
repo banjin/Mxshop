@@ -18,7 +18,7 @@ from .models import Goods
 
 class GoodsListView(View):
     """
-    商品列表
+    商品列表, 通过django的view实现商品列表页
     """
 
     def get(self, request):
@@ -29,12 +29,15 @@ class GoodsListView(View):
             # goods_json['name'] = good.name
             # goods_json['category'] = good.category.name
             # json_list.append(goods_json)
-
+            # or
             # json_list.append(model_to_dict(good))
+        # 返回json格式数据，但是有些字段不能直接转成json
         # return HttpResponse(json.dumps(json_list), content_type='application/json')
+
+        # 使用Django内部的序列化方法对数据进行序列化
         json_data = serializers.serialize("json", goods_list)
         json_data = json.loads(json_data)
-        # return HttpResponse(json_data, content_type='application/json')
+        # return HttpResponse(json.dumps(json_data), content_type='application/json')
         return JsonResponse(json_data, safe=False)
 
 

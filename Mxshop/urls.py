@@ -37,11 +37,13 @@ urlpatterns = [
     url(r'^xadmin/', include(xadmin.site.urls)),
     # 富文本编辑
     url(r'^ueditor/', include('DjangoUeditor.urls')),
+    # 登录配置
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
     # 配置上传文件的访问处理函数
     url(r'^media/(?P<path>.*)$', serve, {"document_root": settings.MEDIA_ROOT}),
-    url(r'^goods/list/', include('goods.urls', namespace='goods')),
+    # 商品列表页
+    url(r'^goods/list/', include("goods.urls", namespace='goods')),
 
     # 使用drf自带文档系统
     url(r'^docs/', include_docs_urls(title='暮雪')),
