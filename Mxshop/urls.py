@@ -23,6 +23,14 @@ from django.views.static import serve
 
 from rest_framework.documentation import include_docs_urls
 
+
+from goods.views import GoodsListViewSet
+from rest_framework.routers import DefaultRouter
+
+
+
+goods_list = GoodsListViewSet.as_view({'get': 'list'})
+
 import xadmin
 xadmin.autodiscover()
 
@@ -43,7 +51,7 @@ urlpatterns = [
     # 配置上传文件的访问处理函数
     url(r'^media/(?P<path>.*)$', serve, {"document_root": settings.MEDIA_ROOT}),
     # 商品列表页
-    url(r'^goods/list/', include("goods.urls", namespace='goods')),
+    url(r'^goods/list/', goods_list, name='goods'),
 
     # 使用drf自带文档系统
     url(r'^docs/', include_docs_urls(title='暮雪')),

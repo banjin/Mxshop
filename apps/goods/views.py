@@ -14,6 +14,8 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework import mixins
 from rest_framework import generics
 
+from rest_framework import viewsets
+
 
 class LargeResultsSetPagination(PageNumberPagination):
     page_size = 10
@@ -22,10 +24,11 @@ class LargeResultsSetPagination(PageNumberPagination):
     page_query_param = 'p'
 
 
+"""
 class GoodsList(mixins.ListModelMixin, generics.GenericAPIView):
-    """
+    '''
     List all snippets, or create a new snippet.
-    """
+    '''
     queryset = Goods.objects.all()
     serializer_class = GoodsSerializer
 
@@ -44,12 +47,14 @@ class GoodsList(mixins.ListModelMixin, generics.GenericAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 """
-class GoodsList(generics.ListAPIView):
+
+
+class GoodsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     '''
     List all snippets, or create a new snippet.
     '''
     queryset = Goods.objects.all()
     serializer_class = GoodsSerializer   
     pagination_class = LargeResultsSetPagination
-    
-"""
+
+
