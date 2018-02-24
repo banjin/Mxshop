@@ -12,6 +12,7 @@ XlsxWriter==1.0.2
 django_guardian==1.4.9
 coreapi==2.3.3
 httplib2==0.10.3
+django-filter==1.1.0
 
 
 

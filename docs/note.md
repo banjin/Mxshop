@@ -7,3 +7,15 @@
 登录xadmin
 
     首先需要创建一个超级用户 python manage.py createsuperuser 
+    
+GenericViewSet(viewset)
+    GenericAPIView
+        APIView
+            View
+mixin
+    CreateModelMixin
+    ListModelMixin
+    UpdateModelMixin
+    DestroyModelMixin
+    RetrieveModelMixin
+    

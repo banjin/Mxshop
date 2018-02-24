@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_filters',
     'rest_framework',
     'xadmin',
     'crispy_forms',
@@ -52,6 +53,7 @@ INSTALLED_APPS = [
     'goods',
     'trade',
     'user_operation',
+
 ]
 
 MIDDLEWARE = [
@@ -151,7 +153,8 @@ REST_FRAMEWORK = {
         # 'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
 
     ],
-    'PAGE_SIZE': 10
+    'PAGE_SIZE': 10,
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
 }
 
 AUTH_USER_MODEL = 'users.UserProfile'
