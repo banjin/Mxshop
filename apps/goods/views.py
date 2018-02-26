@@ -3,8 +3,8 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render
 
-from .models import Goods
-from .serializers import GoodsSerializer
+from .models import Goods, GoodsCategory
+from .serializers import GoodsSerializer, GoodsCategorySerializer
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -12,7 +12,7 @@ from rest_framework import status
 
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import mixins
-from rest_framework.filters import SearchFilter,OrderingFilter
+from rest_framework.filters import SearchFilter, OrderingFilter
 
 from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
@@ -23,7 +23,7 @@ class LargeResultsSetPagination(PageNumberPagination):
     page_size = 10
     page_size_query_param = 'page_size'
     max_page_size = 100
-    page_query_param = 'p'
+    page_query_param = 'page'
 
 
 """
@@ -54,14 +54,21 @@ class GoodsList(mixins.ListModelMixin, generics.GenericAPIView):
 class GoodsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     '''
     List all snippets, or create a new snippet.
+    分页，搜索，过滤，排序
     '''
     queryset = Goods.objects.all()
     serializer_class = GoodsSerializer   
-    # pagination_class = LargeResultsSetPagination
+    pagination_class = LargeResultsSetPagination
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filter_class = GoodsFilter
     search_fields = ('=name', 'goods_desc')
-    ordering_fields = '__all__'
+    ordering_fields = ('sold_num', 'shop_price')
 
 
-
+class CategoryViewset(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+    """
+    list:
+        商品分类列表数据
+    """
+    queryset = GoodsCategory.objects.filter(category_type=1)
+    serializer_class = GoodsCategorySerializer

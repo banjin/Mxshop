@@ -24,13 +24,13 @@ from django.views.static import serve
 from rest_framework.documentation import include_docs_urls
 
 
-from goods.views import GoodsListViewSet
+from goods.views import GoodsListViewSet,CategoryViewset
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 
 router.register(r'goods', GoodsListViewSet, base_name='goods')
-
+router.register(r'categorys', CategoryViewset, base_name='categorys')
 # goods_list = GoodsListViewSet.as_view({'get': 'list'})
 
 import xadmin

@@ -19,3 +19,5 @@ mixin
     DestroyModelMixin
     RetrieveModelMixin
     
+
+使用django-cors-headers解决跨域问题
