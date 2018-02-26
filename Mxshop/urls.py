@@ -22,16 +22,18 @@ from django.contrib.auth import settings
 from django.views.static import serve
 
 from rest_framework.documentation import include_docs_urls
+from rest_framework.authtoken import views
 
-
-from goods.views import GoodsListViewSet,CategoryViewset
+from goods.views import GoodsListViewSet, CategoryViewSet
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 
 router.register(r'goods', GoodsListViewSet, base_name='goods')
-router.register(r'categorys', CategoryViewset, base_name='categorys')
+router.register(r'categorys', CategoryViewSet, base_name='categorys')
 # goods_list = GoodsListViewSet.as_view({'get': 'list'})
+
+from rest_framework_jwt.views import obtain_jwt_token
 
 import xadmin
 xadmin.autodiscover()
@@ -55,6 +57,11 @@ urlpatterns = [
     # 商品列表页
     # url(r'^goods/list/', goods_list, name='goods'),
     url(r'^', include(router.urls)),
+
+    url(r'^api-token-auth/', views.obtain_auth_token),
+
+    # jwt认证接口
+    url(r'^login/', obtain_jwt_token),
 
     # 使用drf自带文档系统
     url(r'^docs/', include_docs_urls(title='暮雪')),

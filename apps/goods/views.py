@@ -14,6 +14,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework import mixins
 from rest_framework.filters import SearchFilter, OrderingFilter
 
+from rest_framework.authentication import TokenAuthentication
 from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
 from goods.filters import GoodsFilter
@@ -57,15 +58,17 @@ class GoodsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     分页，搜索，过滤，排序
     '''
     queryset = Goods.objects.all()
-    serializer_class = GoodsSerializer   
+    serializer_class = GoodsSerializer
+    # 配置局部验证，在setting中可以配置全局
+    # authentication_classes = (TokenAuthentication,)
     pagination_class = LargeResultsSetPagination
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filter_class = GoodsFilter
-    search_fields = ('=name', 'goods_desc')
+    search_fields = ('=name', 'goods_desc', 'goods_brief')
     ordering_fields = ('sold_num', 'shop_price')
 
 
-class CategoryViewset(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+class CategoryViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     """
     list:
         商品分类列表数据
