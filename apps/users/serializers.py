@@ -37,15 +37,30 @@ class SmsSerializer(serializers.Serializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    code = serializers.CharField(max_length=4, min_length=4,
+    code = serializers.CharField(max_length=4, min_length=4, label="验证码",
                                  help_text="验证码", error_messages={
             "blank": "请输入验证码",
             "required":"请输入验证码",
             "max_length":"验证码格式错误",
             "min_length":"验证码格式错误"
         })
-    username = serializers.CharField(required=True, allow_blank=True,
+    username = serializers.CharField(required=True, allow_blank=True,label="用户名",
                                      validators=[UniqueValidator(queryset=User.objects.all(), message="用户已经存在")])
+
+    # password = serializers.CharField( # 在数据库中明文保存密码
+    #     style={'input_type': 'password'}, label="密码", write_only=True
+    # )
+    #
+    # def create(self, validated_data):
+    #     """
+    #     重载create，加密密码
+    #     :param validated_data:
+    #     :return:
+    #     """
+    #     user = super(UserSerializer, self).create(validated_data=validated_data)
+    #     user.set_password(validated_data['password'])
+    #     user.save()
+    #     return user
 
     def validate_code(self, code):
         verify_recodes = VerifyCode.objects.filter(mobile=self.initial_data['username']).order_by('-add_time')
