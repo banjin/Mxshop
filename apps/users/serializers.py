@@ -7,6 +7,7 @@ User = get_user_model()
 import re
 from Mxshop.settings import REGEX_MOBILE
 from .models import VerifyCode
+from rest_framework.validators import UniqueValidator
 
 
 from datetime import datetime, timedelta
@@ -33,3 +34,37 @@ class SmsSerializer(serializers.Serializer):
             raise serializers.ValidationError("验证码已经发送")
 
         return mobile
+
+
+class UserSerializer(serializers.ModelSerializer):
+    code = serializers.CharField(max_length=4, min_length=4,
+                                 help_text="验证码", error_messages={
+            "blank": "请输入验证码",
+            "required":"请输入验证码",
+            "max_length":"验证码格式错误",
+            "min_length":"验证码格式错误"
+        })
+    username = serializers.CharField(required=True, allow_blank=True,
+                                     validators=[UniqueValidator(queryset=User.objects.all(), message="用户已经存在")])
+
+    def validate_code(self, code):
+        verify_recodes = VerifyCode.objects.filter(mobile=self.initial_data['username']).order_by('-add_time')
+        if verify_recodes:
+            last_recodes = verify_recodes[0]
+            five_minute_ago = datetime.now() - timedelta(hours=0, minutes=5, seconds=0)
+            if five_minute_ago<last_recodes.add_time:
+                raise serializers.ValidationError("验证码过期")
+            if last_recodes.code != code:
+                raise serializers.ValidationError("验证码错误")
+
+        else:
+            raise serializers.ValidationError("验证码错误")
+
+    def validate(self, attrs):
+        attrs['mobile'] = attrs['username']
+        del attrs['code']
+        return attrs
+
+    class Meta:
+        model = User
+        fields = ("username", "code", "mobile")

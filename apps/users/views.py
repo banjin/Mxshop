@@ -13,12 +13,13 @@ from random import choice
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
-from .serializers import SmsSerializer
+from .serializers import SmsSerializer,UserSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from utils.yunpian import YunPian
 
 from .models import VerifyCode
+
 
 class CustomBackend(ModelBackend):
     """
@@ -71,3 +72,12 @@ class SmsCodeViewset(CreateModelMixin, viewsets.GenericViewSet):
             return Response({
                 'mobile': mobile
             }, status=status.HTTP_201_CREATED)
+
+
+class UserViewset(CreateModelMixin, viewsets.GenericViewSet):
+    """
+    用户
+    """
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
+
