@@ -5,10 +5,20 @@ from django.shortcuts import render
 from .models import UserProfile
 from django.contrib.auth.backends import ModelBackend
 from django.db.models import Q
+from django.conf import settings
+from rest_framework.mixins import CreateModelMixin
+from rest_framework import viewsets
 
+from random import choice
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
+from .serializers import SmsSerializer
+from rest_framework.response import Response
+from rest_framework import status
+from utils.yunpian import YunPian
+
+from .models import VerifyCode
 
 class CustomBackend(ModelBackend):
     """
@@ -22,3 +32,42 @@ class CustomBackend(ModelBackend):
         except Exception as e:
             return None
 
+
+class SmsCodeViewset(CreateModelMixin, viewsets.GenericViewSet):
+
+    """
+    发送短信验证码
+    """
+    serializer_class = SmsSerializer
+
+    def generate_code(self):
+        """
+        生成验证码
+        :return:
+        """
+        seeds = "1234567890"
+        random_str = []
+        for i in range(4):
+            random_str.append(choice(seeds))
+
+        return "".join(random_str)
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        mobile = serializer.validated_data['mobile']
+        yun_pian = YunPian(settings.API_KEY)
+        code = self.generate_code()
+
+        sms_status = yun_pian.send_sms(code=code,mobile=mobile)
+        if sms_status['code'] != 0:
+            return Response({
+                'mobile': sms_status['msg'],
+                }, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            code_recode = VerifyCode(code=code,mobile=mobile)
+            code_recode.save()
+            return Response({
+                'mobile': mobile
+            }, status=status.HTTP_201_CREATED)
